@@ -19,6 +19,7 @@ import {
   FolderGit2,
   Menu,
   X,
+  Eye,
   School
 } from 'lucide-react';
 
@@ -65,8 +66,8 @@ function InstagramIcon({ size = 16, className = "" }) {
 // LOGO & FOTO PROFIL:
 // Menggunakan logoweb.png (ganti logo situs)
 // -------------------------------------------------------------
-const LOGO_URL = "/logoweb.png";
-const PROFILE_IMAGE_URL = "/profile.png";
+const LOGO_URL = "/images/logoweb.png";
+const PROFILE_IMAGE_URL = "/images/fotopp.jpg";
 const FALLBACK_GITHUB_AVATAR = "https://avatars.githubusercontent.com/u/112377789?v=4";
 
 const cvData = {
@@ -181,28 +182,22 @@ const cvData = {
     ],
     certificates: [
       {
-        title: "Full-Stack Web & RESTful API Development",
-        issuer: "Informatics Competency Program",
-        date: "2024",
-        desc: "Sertifikasi keahlian arsitektur microservices, pembuatan REST API dengan Go (Fiber), JWT token, dan integrasi frontend React."
+        id: "sql",
+        title: "Database Programming With SQL",
+        issuer: "Oracle Academy",
+        date: "Oracle Academy Course Certificate",
+        image: "/images/cert-sql.jpg",
+        viewText: "Lihat Sertifikat",
+        desc: "Sertifikasi kelulusan resmi dari Oracle Academy dalam kompetensi pemrograman basis data SQL, pembuatan query terstruktur, manipulasi data (DML/DDL), pengelolaan relasi tabel, dan fungsi agregat RDBMS."
       },
       {
-        title: "Mobile App Development with Flutter & Firebase",
-        issuer: "Mobile Engineering Certification",
-        date: "2024",
-        desc: "Kompetensi pembuatan aplikasi Android/iOS lintas platform, state management, realtime cloud database, dan integrasi Google Maps SDK."
-      },
-      {
-        title: "Geographic Information System (GIS) & Spatial Analysis",
-        issuer: "ULBI Geospatial Studies",
-        date: "2023",
-        desc: "Sertifikasi analisis data spasial, Leaflet.js, GeoJSON mapping, dan algoritma penentuan rute distribusi logistik."
-      },
-      {
-        title: "Software Engineering & Database Management",
-        issuer: "SMKN 11 Bandung & LSP",
-        date: "2023",
-        desc: "Sertifikat uji kompetensi keahlian rekayasa perangkat lunak, OOP, relational database design, dan software testing."
+        id: "design",
+        title: "Database Design",
+        issuer: "Oracle Academy",
+        date: "Oracle Academy Course Certificate",
+        image: "/images/cert-design.jpg",
+        viewText: "Lihat Sertifikat",
+        desc: "Sertifikasi kelulusan resmi dari Oracle Academy dalam perancangan konseptual & logikal basis data, pemodelan Entity-Relationship Diagram (ERD), normalisasi data, serta arsitektur basis data relasional."
       }
     ],
     contactInfo: [
@@ -324,28 +319,22 @@ const cvData = {
     ],
     certificates: [
       {
-        title: "Full-Stack Web & RESTful API Development",
-        issuer: "Informatics Competency Program",
-        date: "2024",
-        desc: "Certified competency in microservices architecture, REST API engineering with Go (Fiber), JWT security, and React integration."
+        id: "sql",
+        title: "Database Programming With SQL",
+        issuer: "Oracle Academy",
+        date: "Oracle Academy Course Certificate",
+        image: "/images/cert-sql.jpg",
+        viewText: "View Certificate",
+        desc: "Official course completion certificate from Oracle Academy in SQL database programming, structured query design, data manipulation (DML/DDL), table join operations, and RDBMS management."
       },
       {
-        title: "Mobile App Development with Flutter & Firebase",
-        issuer: "Mobile Engineering Certification",
-        date: "2024",
-        desc: "Demonstrated skills in cross-platform mobile development, state management, realtime cloud database, and Google Maps SDK integration."
-      },
-      {
-        title: "Geographic Information System (GIS) & Spatial Analysis",
-        issuer: "ULBI Geospatial Studies",
-        date: "2023",
-        desc: "Spatial data processing certification, Leaflet.js, GeoJSON mapping, and logistics route calculation algorithms."
-      },
-      {
-        title: "Software Engineering & Database Management",
-        issuer: "SMKN 11 Bandung & National LSP",
-        date: "2023",
-        desc: "Vocational certificate of competence in OOP paradigms, relational database normalization, and automated software testing."
+        id: "design",
+        title: "Database Design",
+        issuer: "Oracle Academy",
+        date: "Oracle Academy Course Certificate",
+        image: "/images/cert-design.jpg",
+        viewText: "View Certificate",
+        desc: "Official course completion certificate from Oracle Academy in conceptual & logical database design, Entity-Relationship Diagram (ERD) modeling, data normalization, and relational schema architecture."
       }
     ],
     contactInfo: [
@@ -363,6 +352,7 @@ export default function App() {
   const [filter, setFilter] = useState('all');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [imgSrc, setImgSrc] = useState(PROFILE_IMAGE_URL);
+  const [selectedCert, setSelectedCert] = useState(null);
 
   const content = cvData[lang];
 
@@ -507,13 +497,12 @@ export default function App() {
         </div>
 
         <div className="hero-avatar-area">
-          <div className="avatar-wrapper" style={{ background: '#ffffff', padding: '4px', borderRadius: '50%' }}>
+          <div className="avatar-wrapper">
             <img
               src={imgSrc}
               onError={handleImageError}
               alt={content.name}
               className="avatar-img"
-              style={{ objectFit: 'contain', background: '#ffffff' }}
             />
           </div>
           <div className="gpa-pill">
@@ -695,14 +684,42 @@ export default function App() {
             </div>
 
             <div className="cert-grid">
-              {content.certificates.map((cert, idx) => (
-                <div key={idx} className="cert-card">
-                  <div className="cert-issuer">
-                    <Award size={14} />
-                    <span>{cert.issuer} • {cert.date}</span>
+              {content.certificates.map((cert) => (
+                <div
+                  key={cert.id}
+                  className="cert-card cert-card-interactive"
+                  onClick={() => setSelectedCert(cert)}
+                >
+                  <div className="cert-header-row">
+                    <div className="cert-issuer">
+                      <Award size={15} />
+                      <span>{cert.issuer}</span>
+                    </div>
+                    <span className="cert-date-badge">{cert.date}</span>
                   </div>
+
                   <h3 className="cert-name">{cert.title}</h3>
                   <p className="cert-desc">{cert.desc}</p>
+
+                  <div className="cert-thumb-preview">
+                    <img src={cert.image} alt={cert.title} className="cert-thumb-img" />
+                    <div className="cert-thumb-overlay">
+                      <Eye size={20} />
+                      <span>{cert.viewText}</span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="btn btn-cert-view"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedCert(cert);
+                    }}
+                  >
+                    <Eye size={15} />
+                    <span>{cert.viewText}</span>
+                  </button>
                 </div>
               ))}
             </div>
@@ -749,6 +766,55 @@ export default function App() {
       <footer className="footer">
         <p>{content.footer}</p>
       </footer>
+
+      {/* Certificate Preview Modal */}
+      {selectedCert && (
+        <div className="cert-modal-backdrop" onClick={() => setSelectedCert(null)}>
+          <div className="cert-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="cert-modal-header">
+              <div>
+                <div className="cert-modal-badge">{selectedCert.issuer}</div>
+                <h3 className="cert-modal-title">{selectedCert.title}</h3>
+              </div>
+              <button
+                type="button"
+                className="cert-modal-close"
+                onClick={() => setSelectedCert(null)}
+                aria-label="Close certificate modal"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="cert-modal-body">
+              <img
+                src={selectedCert.image}
+                alt={selectedCert.title}
+                className="cert-modal-img"
+              />
+            </div>
+
+            <div className="cert-modal-footer">
+              <a
+                href={selectedCert.image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+              >
+                <ExternalLink size={15} />
+                <span>{lang === 'id' ? 'Buka Ukuran Penuh' : 'Open Full Image'}</span>
+              </a>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => setSelectedCert(null)}
+              >
+                {lang === 'id' ? 'Tutup' : 'Close'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

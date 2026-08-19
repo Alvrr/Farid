@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Globe,
-  Printer,
+  Download,
   MapPin,
   GraduationCap,
   Star,
@@ -79,7 +79,7 @@ const cvData = {
       certificates: "Sertifikat",
       contact: "Kontak"
     },
-    printBtn: "Cetak / PDF",
+    downloadBtn: "Unduh CV",
     statusBadge: "Mahasiswa D4 Rekayasa Informatika • ULBI • Open for Internship / Part Time",
     name: "Muhammad Farid Al Mustofa",
     bio: "Mahasiswa D4 Rekayasa Informatika di Universitas Logistik dan Bisnis Internasional (ULBI) dengan IPK 3,43/4,00. Bersemangat membangun aplikasi web dan mobile yang skalabel; memiliki pengalaman mengembangkan MANBIG — sistem manajemen pergudangan dan POS — serta SafeRoute, aplikasi pelaporan bahaya jalan. Menguasai Go (Golang), Dart, JavaScript/TypeScript, React.js, Flutter, serta teknologi cloud seperti Firebase dan MongoDB.",
@@ -216,7 +216,7 @@ const cvData = {
       certificates: "Certificate",
       contact: "Contact"
     },
-    printBtn: "Print / PDF",
+    downloadBtn: "Download CV",
     statusBadge: "Informatics Engineering Student • ULBI • Open for Internship / Part Time",
     name: "Muhammad Farid Al Mustofa",
     bio: "D4 Informatics Engineering student at Universitas Logistik dan Bisnis Internasional (ULBI) with a GPA of 3.43/4.00. Passionate about building scalable web and mobile applications, with hands-on experience developing MANBIG — an enterprise warehouse management and POS system — and SafeRoute, a road safety hazard reporting mobile application. Proficient in Go (Golang), Dart, JavaScript/TypeScript, React.js, Flutter, and cloud technologies including Firebase and MongoDB.",
@@ -438,15 +438,18 @@ export default function App() {
               </button>
             </div>
 
-            {/* Print PDF Button */}
-            <button
-              onClick={() => window.print()}
+            {/* Download CV Button */}
+            <a
+              href="/CV-Muhammad Farid Al Mustofa.pdf"
+              download="CV-Muhammad Farid Al Mustofa.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn btn-primary"
-              title="Print or Save as PDF"
+              title={content.downloadBtn}
             >
-              <Printer size={15} />
-              <span>{content.printBtn}</span>
-            </button>
+              <Download size={15} />
+              <span>{content.downloadBtn}</span>
+            </a>
 
             {/* Mobile Menu Toggle Button */}
             <button
@@ -618,25 +621,14 @@ export default function App() {
               </a>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
+            <div className="other-repos-grid">
               {content.otherReposList.map((item, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    background: 'rgba(15, 23, 42, 0.5)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '10px',
-                    padding: '14px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '4px'
-                  }}
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.92rem', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div key={idx} className="other-repo-card">
+                  <div className="other-repo-title">
                     <Compass size={15} color="var(--secondary)" />
                     <span>{item.name}</span>
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                  <div className="other-repo-desc">
                     {item.desc}
                   </div>
                 </div>
@@ -655,7 +647,7 @@ export default function App() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+            <div className="skills-grid">
               {content.skillCategories.map((cat, idx) => (
                 <div key={idx} className="skill-block">
                   <div className="skill-label">{cat.name}</div>
